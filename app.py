@@ -1,8 +1,6 @@
 import customtkinter as ctk
 import CTkMenuBar as ctkm
-import tksvg
 from Macro import Macro
-
 
 class App:
     def __init__(self, name, width, height):
@@ -16,12 +14,32 @@ class App:
         self.root.configure(background="#181919")
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
 
-        self.menu = ctkm.CTkMenuBar(self.root)
-        self.menu.add_cascade("File")
-        self.menu.add_cascade("Edit")
-        self.menu.add_cascade("View")
-        self.menu.add_cascade("Tools")
-        self.menu.add_cascade("Help")
+        self.menu = ctkm.CTkMenuBar(master=self.root)
+            
+        self.CreateMenuBarDropdown(self.menu.add_cascade("File"),{
+            "New File": lambda: print("New File"),
+            "Open File": lambda: print("Open File"),
+            "Save": lambda: print("Save"),
+            "Save as": lambda: print("Save as"),
+            "separator": "",
+            "Exit": self.on_closing,
+        })
+        
+        self.CreateMenuBarDropdown(self.menu.add_cascade("Settings"),{
+            "preferences": lambda: print("preferences")
+        })
+        
+        self.CreateMenuBarDropdown(self.menu.add_cascade("Help"),{
+            "About": lambda: print("About")
+        })
+
+    def CreateMenuBarDropdown(self, cascade, options:dict):
+        dropdown = ctkm.CustomDropdownMenu(cascade)
+        for key, value in options.items():
+            if key != "separator":
+                dropdown.add_option(option=key, command=value)
+            else:
+                dropdown.add_separator()
 
     def render(self):
         self.root.mainloop()

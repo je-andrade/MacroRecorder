@@ -15,6 +15,7 @@ class Macro:
 
     def add_wait(self, time_seconds: int):
         self.instructions.append({"type": "wait", "time": time_seconds})
+        print(f"wait {time_seconds}")
 
     def add_click(self, x: int, y: int, mouse_btn: str):
         self.instructions.append(
@@ -121,6 +122,8 @@ class Macro:
         self.instructions = []
         self.index = 0
         self.end = 0
+
+        print("instructions cleared")
 
 
 if __name__ == "__main__":
